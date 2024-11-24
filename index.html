@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Salvapantallas</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img {
+            width: auto;
+            height: 98vh; /* 100% del alto de la ventana */
+            object-fit: contain; /* Ajusta la imagen para cubrir todo el espacio sin deformarla */
+            border-radius: 10px; /* Redondea los bordes */
+            border: 2px solid white;
+            position: relative;
+            margin-top: 0.5%
+        }
+
+        .texto-encima {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px; /* Redondea los bordes */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.4);;
+            font-size: 2rem;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            padding: 10px 10px 10px 10px;
+            width: fit-content; 
+        }
+    </style>
+</head>
+<body>
+    <img id="imagen" src="" alt="Imagen de construcción">
+    <div id="texto" class="texto-encima"></div>
+
+    <script>
+        // Función para obtener un número aleatorio entre 0 y un máximo
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        // Función para cargar el archivo de texto y obtener un array con las rutas de las imágenes
+        async function cargarImagenes() {
+            const response = await fetch('lista.txt');
+            const text = await response.text();
+            return text.split('\n').filter(path => path.trim()); // Elimina líneas vacías
+        }
+
+        // Función para cambiar la imagen y el texto
+        async function cambiarImagen() {
+            const imagenes = await cargarImagenes();
+            const indiceAleatorio = getRandomInt(imagenes.length);
+            const rutaImagen = imagenes[indiceAleatorio];
+            const nombreImagen = rutaImagen.split('\\')[2]; // Obtiene el nombre del archivo sin extensión
+
+            document.getElementById('imagen').src = rutaImagen;
+            document.getElementById('texto').textContent = nombreImagen;
+        }
+
+        // Llama a la función por primera vez y luego cada 10 segundos
+        cambiarImagen();
+        setInterval(cambiarImagen, 7000);
+    </script>
+</body>
+</html>
