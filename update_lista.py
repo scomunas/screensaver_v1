@@ -1,6 +1,8 @@
 import os
 import json
 
+exceptions = ['@eaDir']
+
 def buscar_imagenes(ruta):
     extensiones_imagen = ('.jpg', '.jpeg', '.png', '.gif', '.bmp')
     lista_imagenes = []
@@ -9,7 +11,16 @@ def buscar_imagenes(ruta):
         for archivo in archivos:
             if archivo.lower().endswith(extensiones_imagen):
                 ruta_completa = os.path.join(raiz, archivo)
-                lista_imagenes.append(ruta_completa[len(config['input_path']):])
+
+                # Check exceptions
+                is_exception = False
+                for exception in exceptions:
+                    if (exception in ruta_completa):
+                        is_exception = True
+
+                # Add only if is not a exception
+                if (is_exception == False):
+                    lista_imagenes.append(ruta_completa[len(config['input_path']):])
 
     return lista_imagenes
 

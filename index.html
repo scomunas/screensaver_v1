@@ -60,7 +60,7 @@
             const imagenes = await cargarImagenes();
             const indiceAleatorio = getRandomInt(imagenes.length);
             const rutaImagen = imagenes[indiceAleatorio];
-            const nombreImagen = rutaImagen.split('\\')[2]; // Obtiene el nombre del archivo sin extensión
+            const nombreImagen = rutaImagen.split('/')[2]; // Obtiene el nombre del archivo sin extensión
 
             document.getElementById('imagen').src = rutaImagen;
             document.getElementById('texto').textContent = nombreImagen;
